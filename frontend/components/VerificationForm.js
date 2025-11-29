@@ -31,17 +31,32 @@ export default function VerificationForm() {
     setResult(null);
 
     try {
-      const response = await axios.post(`${API_URL}/api/verify`, {
-        claim: claim.trim()
-      });
+      const response = await axios.post(
+        `${API_URL}/api/verify`, 
+        { claim: claim.trim() },
+        { timeout: 60000 } // 60 second timeout
+      );
 
       setResult(response.data);
+      
+      // Scroll to results
+      setTimeout(() => {
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+      }, 100);
     } catch (err) {
       console.error("Verification error:", err);
-      setError(
-        err.response?.data?.detail || 
-        "Failed to verify claim. Please try again."
-      );
+      
+      if (err.code === 'ECONNABORTED') {
+        setError("⏱️ Verification is taking longer than expected. Please try again or check if backend is running.");
+      } else if (err.response?.status === 500) {
+        setError("⚠️ Server error occurred. Please check your API keys and try again.");
+      } else if (err.response?.status === 422) {
+        setError("❌ Invalid request. Please check your claim format.");
+      } else if (!err.response) {
+        setError("🔌 Cannot connect to server. Make sure backend is running at " + API_URL);
+      } else {
+        setError(err.response?.data?.detail || "Failed to verify claim. Please try again.");
+      }
     } finally {
       setLoading(false);
     }
@@ -56,12 +71,12 @@ export default function VerificationForm() {
   return (
     <div className="space-y-6">
       {/* Input Form */}
-      <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-          Verify a Claim
+      <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100 transition-all hover:shadow-xl">
+        <h2 className="text-2xl font-semibold text-gray-800 mb-2">
+          🔍 Verify a Claim
         </h2>
         <p className="text-gray-600 mb-6">
-          Paste any news headline or claim below to check its accuracy.
+          Paste any news headline, social media post, or claim below. We&apos;ll check it against trusted Indian fact-checkers and AI analysis.
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -69,21 +84,26 @@ export default function VerificationForm() {
             <textarea
               value={claim}
               onChange={(e) => setClaim(e.target.value)}
-              placeholder="Paste a news headline or claim here..."
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none h-32 text-gray-900"
+              placeholder="Example: &quot;India bans all social media platforms&quot; or &quot;Free laptops for all students announced&quot;"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none h-32 text-gray-900 transition-shadow"
               disabled={loading}
+              maxLength={500}
             />
             <div className="flex justify-between items-center mt-2">
-              <span className="text-sm text-gray-500">
-                {claim.length} characters
+              <span className={`text-sm ${
+                claim.length < 10 ? 'text-red-500' : 
+                claim.length > 400 ? 'text-orange-500' : 
+                'text-gray-500'
+              }`}>
+                {claim.length} / 500 characters {claim.length < 10 && claim.length > 0 && '(min 10)'}
               </span>
               {claim && (
                 <button
                   type="button"
                   onClick={handleReset}
-                  className="text-sm text-gray-500 hover:text-gray-700"
+                  className="text-sm text-blue-600 hover:text-blue-800 font-medium"
                 >
-                  Clear
+                  ✕ Clear
                 </button>
               )}
             </div>
