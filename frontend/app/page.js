@@ -18,7 +18,7 @@ export default function Home() {
             </div>
             <div className="hidden sm:flex items-center gap-3 text-xs text-gray-500">
               <span className="font-semibold text-green-600">● Live</span>
-              <Image src="/icon.jpg" alt="FactCheckit Logo" width={64} height={64} className="w-16 h-16" />
+              <Image src="/logo.jpg" alt="FactCheckit Logo" width={64} height={64} className="w-16 h-16 rounded-lg" />
             </div>
           </div>
         </div>
