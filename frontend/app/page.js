@@ -4,26 +4,41 @@ import VerificationForm from "@/components/VerificationForm";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-linear-to-br from-blue-50 via-white to-purple-50">
+    <main className="relative min-h-dvh overflow-hidden">
+      {/* Decorative background shapes */}
+      <div aria-hidden className="pointer-events-none absolute inset-0">
+        <div className="absolute -top-24 -left-24 w-[36rem] h-[36rem] rounded-full animated-gradient blur-3xl"></div>
+        <div className="absolute -bottom-24 -right-24 w-[30rem] h-[30rem] rounded-full animated-gradient blur-3xl"></div>
+      </div>
+
       {/* Header */}
-      <header className="py-6 px-4 border-b border-gray-200 bg-white/80 backdrop-blur-sm">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
-            <span className="text-4xl">✓</span>
-            <span>FactCheckit</span>
-          </h1>
-          <p className="text-gray-600 mt-1">AI-powered Crisis News & Claim Verification</p>
+      <header className="px-6 pt-10">
+        <div className="container">
+          <div className="flex items-center justify-between">
+            <h1 className="text-4xl font-extrabold tracking-tight text-gradient">FactCheckit</h1>
+          </div>
+          <div className="mt-2 text-gray-600">
+            <p className="text-base">AI-powered Crisis News & Claim Verification</p>
+          </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <div className="max-w-4xl mx-auto px-4 py-12">
-        <VerificationForm />
-      </div>
+      <section className="px-6 py-10">
+        <div className="container grid gap-8">
+          <div className="glass-surface rounded-3xl soft-glow">
+            <div className="p-8 md:p-10">
+              <VerificationForm />
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Footer */}
-      <footer className="py-6 text-center text-gray-500 text-sm">
-        <p>Helping you understand verified news during crises</p>
+      <footer className="px-6 pb-10">
+        <div className="container text-center text-gray-500 text-sm">
+          <p>Helping you understand verified news during crises</p>
+        </div>
       </footer>
     </main>
   );

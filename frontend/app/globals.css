@@ -1,8 +1,11 @@
 @import "tailwindcss";
+@import "../styles/custom.css";
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --accent-start: #4f46e5; /* indigo-600 */
+  --accent-end: #9333ea;   /* purple-600 */
 }
 
 @theme inline {
@@ -16,11 +19,77 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --accent-start: #6366f1; /* indigo-500 */
+    --accent-end: #a855f7;   /* purple-500 */
   }
 }
 
 body {
-  background: var(--background);
+  min-height: 100dvh;
+  background: radial-gradient(1200px 600px at -10% -10%, rgba(79,70,229,0.12), transparent 60%),
+              radial-gradient(800px 500px at 110% 10%, rgba(147,51,234,0.10), transparent 60%),
+              linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.9));
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Gradient text utility */
+.text-gradient {
+  background: linear-gradient(90deg, var(--accent-start), var(--accent-end));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Subtle glow utility */
+.soft-glow {
+  box-shadow: 0 20px 40px rgba(79,70,229,0.15), 0 8px 20px rgba(147,51,234,0.12);
+}
+
+/* Elegant glass surface */
+.glass-surface {
+  background: rgba(255,255,255,0.65);
+  backdrop-filter: saturate(1.25) blur(12px);
+  -webkit-backdrop-filter: saturate(1.25) blur(12px);
+  border: 1px solid rgba(255,255,255,0.5);
+}
+
+/* Animated gradient background helper */
+.animated-gradient {
+  background: linear-gradient(120deg, rgba(79,70,229,0.15), rgba(147,51,234,0.15));
+  animation: gradientShift 8s ease-in-out infinite alternate;
+}
+
+@keyframes gradientShift {
+  0% { filter: hue-rotate(0deg); opacity: 0.85; }
+  100% { filter: hue-rotate(20deg); opacity: 1; }
+}
+
+/* Layout helpers */
+.container {
+  width: 100%;
+  max-width: 96rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+.section-spacing {
+  padding-block: clamp(2rem, 4vw, 4rem);
+}
+
+/* Typography refinements */
+h1, h2, h3, h4 { letter-spacing: -0.01em; }
+p { line-height: 1.6; }
+
+/* Button design system */
+.btn-primary {
+  background-image: linear-gradient(90deg, var(--accent-start), var(--accent-end));
+  color: #fff;
+  border-radius: 0.75rem;
+  padding: 0.75rem 1.25rem;
+  font-weight: 600;
+  box-shadow: 0 8px 20px rgba(79,70,229,0.2);
+  transition: transform 200ms ease, box-shadow 200ms ease, filter 200ms ease;
+}
+.btn-primary:hover { filter: brightness(1.05); box-shadow: 0 10px 24px rgba(79,70,229,0.28); }
+.btn-primary:active { transform: translateY(1px); }
+.btn-primary:disabled { filter: grayscale(0.3) brightness(0.9); box-shadow: none; }

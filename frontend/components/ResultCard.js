@@ -7,7 +7,7 @@ export default function ResultCard({ result }) {
           border: "border-green-200",
           badge: "bg-green-600",
           text: "text-green-800",
-          icon: "✓"
+          icon: null
         };
       case "FALSE":
         return {
@@ -15,7 +15,7 @@ export default function ResultCard({ result }) {
           border: "border-red-200",
           badge: "bg-red-600",
           text: "text-red-800",
-          icon: "✗"
+          icon: null
         };
       case "MISLEADING":
         return {
@@ -23,7 +23,7 @@ export default function ResultCard({ result }) {
           border: "border-yellow-200",
           badge: "bg-yellow-600",
           text: "text-yellow-800",
-          icon: "⚠"
+          icon: null
         };
       case "UNVERIFIED":
         return {
@@ -31,7 +31,7 @@ export default function ResultCard({ result }) {
           border: "border-gray-200",
           badge: "bg-gray-600",
           text: "text-gray-800",
-          icon: "?"
+          icon: null
         };
       default:
         return {
@@ -39,7 +39,7 @@ export default function ResultCard({ result }) {
           border: "border-gray-200",
           badge: "bg-gray-600",
           text: "text-gray-800",
-          icon: "?"
+          icon: null
         };
     }
   };
@@ -47,17 +47,12 @@ export default function ResultCard({ result }) {
   const style = getVerdictStyle(result.verdict);
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+    <div className="rounded-2xl border border-white/50 bg-white/70 backdrop-blur-lg shadow-lg overflow-hidden">
       {/* Verdict Header */}
       <div className={`${style.bg} ${style.border} border-b px-8 py-6`}>
         <div className="flex items-center gap-3 mb-2">
-          <span className={`${style.badge} text-white px-4 py-1.5 rounded-full text-sm font-semibold flex items-center gap-2`}>
-            <span className="text-lg">{style.icon}</span>
-            {result.verdict}
-          </span>
-          <span className="text-sm text-gray-600">
-            Confidence: {(result.confidence_score * 100).toFixed(0)}%
-          </span>
+          <span className={`${style.badge} text-white px-4 py-1.5 rounded-full text-sm font-semibold`}> {result.verdict} </span>
+          <span className="text-sm text-gray-600">Confidence: {(result.confidence_score * 100).toFixed(0)}%</span>
         </div>
         <h3 className={`text-xl font-semibold ${style.text} mt-2`}>
           {result.verdict === "TRUE" && "This claim is true"}
@@ -71,10 +66,7 @@ export default function ResultCard({ result }) {
       <div className="px-8 py-6 space-y-6">
         {/* Real News Summary */}
         <div>
-          <h4 className="text-lg font-semibold text-gray-900 mb-2 flex items-center gap-2">
-            <span>📰</span>
-            Real News Summary
-          </h4>
+          <h4 className="text-lg font-semibold text-gray-900 mb-2">Real News Summary</h4>
           <p className="text-gray-700 leading-relaxed">
             {result.real_news_summary}
           </p>
@@ -82,10 +74,7 @@ export default function ResultCard({ result }) {
 
         {/* Detailed Explanation */}
         <div>
-          <h4 className="text-lg font-semibold text-gray-900 mb-2 flex items-center gap-2">
-            <span>💡</span>
-            Detailed Explanation
-          </h4>
+          <h4 className="text-lg font-semibold text-gray-900 mb-2">Detailed Explanation</h4>
           <p className="text-gray-700 leading-relaxed">
             {result.detailed_explanation}
           </p>
@@ -94,10 +83,7 @@ export default function ResultCard({ result }) {
         {/* Evidence Points */}
         {result.evidence_points && result.evidence_points.length > 0 && (
           <div>
-            <h4 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
-              <span>🔍</span>
-              Evidence Points
-            </h4>
+            <h4 className="text-lg font-semibold text-gray-900 mb-3">Evidence Points</h4>
             <ul className="space-y-3">
               {result.evidence_points.map((evidence, index) => (
                 <li key={index} className="flex gap-3">
@@ -121,10 +107,7 @@ export default function ResultCard({ result }) {
         {/* Sources */}
         {result.sources && result.sources.length > 0 && (
           <div>
-            <h4 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
-              <span>🔗</span>
-              Sources
-            </h4>
+            <h4 className="text-lg font-semibold text-gray-900 mb-3">Sources</h4>
             <ul className="space-y-2">
               {result.sources.map((source, index) => (
                 <li key={index}>
@@ -132,9 +115,8 @@ export default function ResultCard({ result }) {
                     href={source.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-600 hover:text-blue-800 hover:underline flex items-center gap-2"
+                    className="text-blue-600 hover:text-blue-800 hover:underline"
                   >
-                    <span className="text-sm">🌐</span>
                     <span className="font-medium">{source.title}</span>
                     {source.publisher && (
                       <span className="text-sm text-gray-500">
