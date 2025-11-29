@@ -1,6 +1,7 @@
 "use client";
 
 import VerificationForm from "@/components/VerificationForm";
+import Image from "next/image";
 
 export default function Home() {
   return (
@@ -11,13 +12,13 @@ export default function Home() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
-                <span className="text-4xl">✓</span>
                 <span>FactCheckit</span>
               </h1>
               <p className="text-gray-600 mt-1 text-sm sm:text-base">🇮🇳 AI-powered Crisis News & Claim Verification</p>
             </div>
-            <div className="hidden sm:flex flex-col items-end text-xs text-gray-500">
+            <div className="hidden sm:flex items-center gap-3 text-xs text-gray-500">
               <span className="font-semibold text-green-600">● Live</span>
+              <Image src="/icon.jpg" alt="FactCheckit Logo" width={64} height={64} className="w-16 h-16" />
             </div>
           </div>
         </div>
