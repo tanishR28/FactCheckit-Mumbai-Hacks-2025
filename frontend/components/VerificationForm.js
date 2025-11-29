@@ -12,6 +12,7 @@ export default function VerificationForm() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
+  const [slowLoadingWarning, setSlowLoadingWarning] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,12 +30,18 @@ export default function VerificationForm() {
     setLoading(true);
     setError(null);
     setResult(null);
+    setSlowLoadingWarning(false);
+
+    // Show warning after 60 seconds about cold start
+    const warningTimer = setTimeout(() => {
+      setSlowLoadingWarning(true);
+    }, 60000);
 
     try {
       const response = await axios.post(
         `${API_URL}/api/verify`, 
         { claim: claim.trim() },
-        { timeout: 60000 } // 60 second timeout
+        { timeout: 120000 } // 120 second timeout (includes Render cold start)
       );
 
       setResult(response.data);
@@ -58,7 +65,9 @@ export default function VerificationForm() {
         setError(err.response?.data?.detail || "Failed to verify claim. Please try again.");
       }
     } finally {
+      clearTimeout(warningTimer);
       setLoading(false);
+      setSlowLoadingWarning(false);
     }
   };
 
@@ -112,6 +121,18 @@ export default function VerificationForm() {
           {error && (
             <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
               {error}
+            </div>
+          )}
+
+          {slowLoadingWarning && !error && (
+            <div className="bg-yellow-50 border border-yellow-200 text-yellow-800 px-4 py-3 rounded-lg animate-pulse">
+              <div className="flex items-start gap-2">
+                <span className="text-xl">⏳</span>
+                <div>
+                  <p className="font-semibold">Taking longer than usual...</p>
+                  <p className="text-sm mt-1">This might be your first request. The backend server is waking up from sleep (free tier limitation). This only happens once - future requests will be much faster!</p>
+                </div>
+              </div>
             </div>
           )}
 
