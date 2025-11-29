@@ -8,7 +8,7 @@ load_dotenv()
 
 app = FastAPI(
     title="FactCheckit API",
-    description="🇮🇳 AI-powered Crisis News & Claim Verification Tool - Built for Mumbai Hacks 2025",
+    description="🇮🇳 AI-powered Crisis News & Claim Verification Tool",
     version="2.0.0",
     docs_url="/docs",
     redoc_url="/redoc"

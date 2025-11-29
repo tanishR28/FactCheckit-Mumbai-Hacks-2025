@@ -18,7 +18,6 @@ export default function Home() {
             </div>
             <div className="hidden sm:flex flex-col items-end text-xs text-gray-500">
               <span className="font-semibold text-green-600">● Live</span>
-              <span className="mt-1">Mumbai Hacks 2025</span>
             </div>
           </div>
         </div>

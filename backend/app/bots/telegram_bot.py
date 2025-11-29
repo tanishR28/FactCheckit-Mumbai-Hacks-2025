@@ -83,7 +83,7 @@ async def about_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     about_message = """
 ℹ️ **About FactCheckit**
 
-FactCheckit is an AI-powered fact-checking platform built for Mumbai Hacks 2025.
+FactCheckit is an AI-powered fact-checking platform.
 
 **Features:**
 🇮🇳 5 Indian fact-checkers integrated
